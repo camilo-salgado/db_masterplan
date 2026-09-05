@@ -1,0 +1,23 @@
+URBANIZACIÓN LA VILLA DE MARCOS - VERSIÓN ADAPTADA
+
+Base: sistema Caminos de la Pradera.
+Distribución configurada:
+- Manzana 01: casas 001 a 034 (34)
+- Manzana 02: casas 001 a 030 (30)
+- Manzana 03: casas 001 a 007, 07A y 008 a 014 (15)
+- Manzana 04: casas 001 a 006 (6)
+TOTAL: 85 casas.
+
+Cambios principales:
+- Identidad visual y textos adaptados a La Villa de Marcos.
+- Selector dependiente Manzana -> Casa.
+- Validación en frontend y backend para impedir casas inexistentes.
+- Se conserva 07A como identificador alfanumérico válido y distinto de 007.
+- Panel administrativo ajustado a 85 casas y 4 manzanas.
+- Eliminado el filtro visual por piso.
+- Exportación Excel adaptada a Manzana/Casa.
+- Radicados nuevos con prefijo VM.
+- Cookie administrativa separada (vm_admin).
+
+IMPORTANTE: cree una base D1 independiente para este conjunto y ejecute schema.sql en ella.
+Configure ADMIN_PASSWORD y SESSION_SECRET como secretos del nuevo proyecto.

@@ -1,0 +1,18 @@
+SEGURIDAD ADMINISTRATIVA 1.0
+
+Cambios:
+- Sesión firmada con expiración real de 30 minutos.
+- Cierre automático después de 15 minutos de inactividad.
+- Cookie HttpOnly + Secure + SameSite=Strict.
+- Las sesiones antiguas dejan de funcionar al instalar esta versión.
+- Cambiar ADMIN_PASSWORD invalida automáticamente las sesiones existentes.
+- Verificación del servidor al regresar a la pestaña.
+- Cualquier API administrativa continúa validando la sesión en el servidor.
+
+RECOMENDADO EN CLOUDFLARE:
+1. Mantener ADMIN_PASSWORD como Secret.
+2. Crear un nuevo Secret llamado SESSION_SECRET.
+3. Usar un valor largo y aleatorio (32 o más caracteres).
+4. Guardar y esperar el nuevo despliegue.
+
+No se requiere modificar D1.

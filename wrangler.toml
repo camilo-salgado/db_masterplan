@@ -1,0 +1,8 @@
+name = "villa-marcos"
+compatibility_date = "2026-08-01"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "villa-marcos-db"
+database_id = "1fc73cb0-1f59-45a7-b4c5-b75dcc54da4d"

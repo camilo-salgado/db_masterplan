@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administración | La Villa de Marcos</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body class="admin-body">
+  <section id="loginView" class="admin-login">
+    <div class="card login-card">
+      <img class="small-logo" src="/assets/logo.png" alt="Logo La Villa de Marcos">
+      <h1>Acceso administrativo</h1>
+      <form id="loginForm">
+        <label>
+          Contraseña administrativa
+          <input type="password" id="password" required autocomplete="current-password">
+        </label>
+        <p id="loginError" class="error"></p>
+        <button class="btn primary" type="submit">Ingresar</button>
+        <a class="back-link" href="/">Volver al inicio</a>
+      </form>
+    </div>
+  </section>
+
+  <section id="dashboardView" class="dashboard dashboard-v2 hidden">
+    <aside class="sidebar sidebar-v2">
+      <div class="sidebar-brand">
+        <img src="/assets/logo.png" alt="Logo">
+      </div>
+
+      <span class="sidebar-caption">ADMINISTRACIÓN</span>
+
+      <nav class="sidebar-nav">
+        <button class="nav active" data-view="summary">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span>Dashboard</span>
+        </button>
+        <button class="nav" data-mode="apartments">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V21h13V10.5"/><path d="M9.5 21v-6h5v6"/></svg></span><span>Casas</span>
+        </button>
+        <button class="nav" data-mode="residents">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3.5 20c.4-4 2.2-6 5.5-6s5.1 2 5.5 6"/><path d="M14 15c3.8-.5 6 1.2 6.5 5"/></svg></span><span>Residentes</span>
+        </button>
+        <button class="nav" data-mode="vehicles">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 10 1.5-4h11L19 10"/><rect x="3" y="10" width="18" height="8" rx="2"/><circle cx="7" cy="18" r="1.5"/><circle cx="17" cy="18" r="1.5"/><path d="M6 13h.01M18 13h.01"/></svg></span><span>Vehículos</span>
+        </button>
+        <button class="nav" data-mode="pets">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7" r="2"/><circle cx="17" cy="7" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="19" cy="12" r="2"/><path d="M8 18c0-3 1.8-5 4-5s4 2 4 5c0 2-1.8 3-4 3s-4-1-4-3Z"/></svg></span><span>Mascotas</span>
+        </button>
+        <button class="nav" id="exportExcelButton" type="button">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4"/><path d="m9 11 5 6M14 11l-5 6"/></svg></span><span>Exportar Excel</span>
+        </button>
+        <button class="nav" id="logoutButton">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5H5v14h5"/><path d="M13 8l4 4-4 4"/><path d="M17 12H9"/></svg></span><span>Cerrar sesión</span>
+        </button>
+      </nav>
+    </aside>
+
+    <main class="dashboard-main dashboard-main-v2">
+      <header class="dashboard-header-v2">
+        <div>
+          <h1>Dashboard</h1>
+          <p>Urbanización La Villa de Marcos</p>
+        </div>
+        <div class="dashboard-clock">
+          <div><span class="clock-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/><path d="M7 14h2M11 14h2M15 14h2M7 18h2M11 18h2"/></svg></span><strong id="dashboardDate">—</strong></div>
+          <div><span class="clock-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><strong id="dashboardTime">—</strong></div>
+        </div>
+      </header>
+
+      <div id="adminMessage" class="admin-message hidden"></div>
+
+      <section id="summaryView" class="summary-v2">
+        <div class="metric-grid">
+          <article class="metric-card metric-green">
+            <div class="metric-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4h10v17"/><path d="M15 8h4v13"/><path d="M8 7h2M12 7h1M8 11h2M12 11h1M8 15h2M12 15h1M8 19h2M12 19h1M18 11h1M18 15h1M18 19h1"/><path d="M3 21h18"/></svg></div>
+            <div><span>TOTAL CASAS</span><strong id="statTotalApartments">85</strong><small>100% del conjunto</small></div>
+          </article>
+          <article class="metric-card metric-teal">
+            <div class="metric-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3.5 20c.4-4 2.2-6 5.5-6s5.1 2 5.5 6"/><path d="M14 15c3.8-.5 6 1.2 6.5 5"/></svg></div>
+            <div><span>CASAS OCUPADAS</span><strong id="statOccupied">0</strong><small id="occupiedPercent">0%</small></div>
+          </article>
+          <article class="metric-card metric-lime">
+            <div class="metric-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V21h13V10.5"/><path d="M9.5 21v-6h5v6"/></svg></div>
+            <div><span>CASAS DESOCUPADAS</span><strong id="statVacant">0</strong><small id="vacantPercent">0%</small></div>
+          </article>
+          <article class="metric-card metric-brown">
+            <div class="metric-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3.5 20c.4-4 2.2-6 5.5-6s5.1 2 5.5 6"/><path d="M14 15c3.8-.5 6 1.2 6.5 5"/></svg></div>
+            <div><span>TOTAL RESIDENTES</span><strong id="statResidents">0</strong><small id="residentAverageTop">Promedio: 0 por casa</small></div>
+          </article>
+          <article class="metric-card metric-teal">
+            <div class="metric-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 10 1.5-4h11L19 10"/><rect x="3" y="10" width="18" height="8" rx="2"/><circle cx="7" cy="18" r="1.5"/><circle cx="17" cy="18" r="1.5"/><path d="M6 13h.01M18 13h.01"/></svg></div>
+            <div><span>VEHÍCULOS REGISTRADOS</span><strong id="statVehicles">0</strong><small id="vehicleApartmentPercent">0% de casas</small></div>
+          </article>
+          <article class="metric-card metric-green">
+            <div class="metric-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7" r="2"/><circle cx="17" cy="7" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="19" cy="12" r="2"/><path d="M8 18c0-3 1.8-5 4-5s4 2 4 5c0 2-1.8 3-4 3s-4-1-4-3Z"/></svg></div>
+            <div><span>MASCOTAS REGISTRADAS</span><strong id="statPets">0</strong><small>Animales de compañía</small></div>
+          </article>
+        </div>
+
+        <div class="dashboard-mid-grid">
+          <article class="dash-card progress-card-v2">
+            <h2>AVANCE DEL CENSO RESIDENCIAL</h2>
+            <div class="progress-card-body">
+              <div class="radial-progress" id="mainRadial">
+                <div class="radial-inner">
+                  <strong id="censusProgressPercent">0%</strong>
+                  <span>Avance general</span>
+                </div>
+              </div>
+              <div class="progress-facts">
+                <p><strong id="progressRegistered">0 casas</strong><span>registrados</span></p>
+                <hr>
+                <p><strong id="statPending">85 casas</strong><span>pendientes</span></p>
+                <small>Meta: 85 casas</small>
+              </div>
+            </div>
+            <div class="positive-note"><span>✓</span><p><strong>¡Vamos muy bien!</strong><br>Sigamos trabajando juntos para completar la información de todo el conjunto.</p></div>
+          </article>
+
+          <article class="dash-card distribution-card">
+            <h2>DISTRIBUCIÓN DE CASAS</h2>
+            <div class="distribution-body">
+              <div class="distribution-donut" id="distributionDonut"><div><strong>85</strong><span>Total</span></div></div>
+              <div class="distribution-legend">
+                <p><i class="dot dot-teal"></i><span>Ocupados</span><strong id="distOccupied">0 (0%)</strong></p>
+                <p><i class="dot dot-lime"></i><span>Desocupados</span><strong id="distVacant">0 (0%)</strong></p>
+                <p><i class="dot dot-gray"></i><span>Pendientes</span><strong id="distPending">85 (100%)</strong></p>
+              </div>
+            </div>
+          </article>
+
+          <article class="dash-card tower-card-wrap">
+            <h2>AVANCE POR MANZANA</h2>
+            <div id="towerStats" class="tower-card-grid"></div>
+          </article>
+        </div>
+
+        <div class="dashboard-bottom-grid">
+          <article class="dash-card">
+            <h2>RESUMEN GENERAL</h2>
+            <div class="summary-list">
+              <p><span><i class="sum-icon teal">●</i>Promedio de residentes por casa ocupada</span><strong id="summaryResidentsAvg">0</strong></p>
+              <p><span><i class="sum-icon teal">▰</i>Casas con vehículo</span><strong id="summaryVehicleApartments">0</strong></p>
+              <p><span><i class="sum-icon lime">◆</i>Casas con mascotas</span><strong id="summaryPetApartments">0</strong></p>
+              <p><span><i class="sum-icon brown">P</i>Parqueaderos registrados</span><strong id="summaryParkings">0</strong></p>
+              <p><span><i class="sum-icon green">▤</i>Número de radicados generados</span><strong id="summaryFilings">0</strong></p>
+            </div>
+          </article>
+
+          <article class="dash-card">
+            <div class="card-title-row"><h2>REGISTROS RECIENTES</h2><button id="viewAllRecent" type="button">Ver todos</button></div>
+            <div id="recentRecords" class="recent-list"><p class="empty-dashboard">Aún no hay registros.</p></div>
+          </article>
+
+          <article class="dash-card">
+            <h2>ESTADO DEL CENSO</h2>
+            <div class="status-list">
+              <p><span>Información actualizada</span><strong class="status-pill status-good">Al día</strong></p>
+              <p><span>Último registro</span><strong id="statusLastRecord">Sin registros</strong></p>
+              <p><span>Registros pendientes</span><strong id="statusPending" class="status-pill status-warning">85 casas</strong></p>
+              <p><span>Días desde el primer registro</span><strong id="statusDays">0 días</strong></p>
+              <p><span>Base de datos</span><strong class="status-pill status-good">Operativa</strong></p>
+            </div>
+          </article>
+        </div>
+
+        <footer class="dashboard-footer-v2">
+          <p>♢ La información registrada es confidencial y de uso exclusivo de la administración del conjunto.</p>
+          <strong>¡Tu participación hace la diferencia!</strong>
+        </footer>
+      </section>
+
+      <section id="recordsView" class="hidden">
+        <div class="apartments-module-head">
+          <div>
+            <span class="module-kicker">GESTIÓN RESIDENCIAL</span>
+            <h2 id="recordsViewTitle">Casas registradas</h2>
+            <p id="recordsViewDescription">
+              Consulta y administra la información censada de cada casa.
+            </p>
+          </div>
+          <button type="button" id="clearApartmentFilters" class="module-clear-btn">
+            Limpiar filtros
+          </button>
+        </div>
+
+        <div id="apartmentModuleSummary" class="apartment-module-summary">
+          <article>
+            <span>Registrados</span>
+            <strong id="moduleRegistered">0</strong>
+          </article>
+          <article class="summary-occupied">
+            <span>Ocupados</span>
+            <strong id="moduleOccupied">0</strong>
+          </article>
+          <article class="summary-vacant">
+            <span>Desocupados</span>
+            <strong id="moduleVacant">0</strong>
+          </article>
+          <article class="summary-result">
+            <span>Resultados visibles</span>
+            <strong id="moduleVisible">0</strong>
+          </article>
+        </div>
+
+        <div class="panel records-panel-v2 apartments-management-panel">
+          <div class="apartment-filter-bar">
+            <label class="filter-search">
+              <span>Buscar</span>
+              <input id="searchInput" placeholder="Casa, residente, documento, teléfono, placa, parqueadero o mascota">
+            </label>
+
+            <label>
+              <span>Manzana</span>
+              <select id="towerFilter">
+                <option value="">Todas las manzanas</option>
+                <option value="Bloque 01">Manzana 01</option>
+                <option value="Bloque 02">Manzana 02</option>
+                <option value="Bloque 03">Manzana 03</option>
+                <option value="Bloque 04">Manzana 04</option>
+              </select>
+            </label>
+
+            <label id="statusFilterWrap">
+              <span>Estado</span>
+              <select id="statusFilter">
+                <option value="">Todos los estados</option>
+                <option value="Ocupado">Ocupados</option>
+                <option value="Desocupado">Desocupados</option>
+              </select>
+            </label>
+          </div>
+
+          <div id="activeFilters" class="active-filters hidden"></div>
+          <div id="recordsList" class="records-list apartment-records-list"></div>
+        </div>
+      </section>
+    </main>
+  </section>
+
+  <div id="detailModal" class="modal hidden">
+    <div class="modal-card wide">
+      <button class="modal-close" id="closeDetail">×</button>
+      <div class="detail-toolbar">
+        <button type="button" class="btn primary detail-edit-btn" id="editRecordButton">
+          Editar información
+        </button>
+      </div>
+      <div id="detailContent"></div>
+    </div>
+  </div>
+
+  <div id="editModal" class="modal hidden">
+    <div class="modal-card wide admin-edit-modal">
+      <button class="modal-close" id="closeEditModal" type="button">×</button>
+
+      <div class="edit-modal-header">
+        <div>
+          <h2>Editar casa</h2>
+          <p id="editApartmentLabel">—</p>
+        </div>
+        <span class="edit-admin-badge">Solo administrador</span>
+      </div>
+
+      <form id="editRecordForm">
+        <input type="hidden" id="editRecordId">
+
+        <section class="edit-section">
+          <h3>Información de la casa</h3>
+          <div class="grid two">
+            <label>Manzana
+              <input id="editTower" readonly>
+            </label>
+
+            <label>Casa
+              <input id="editApartment" readonly>
+            </label>
+
+            <label>Estado de la casa
+              <select id="editStatus" required>
+                <option value="Ocupado">Ocupado</option>
+                <option value="Desocupado">Desocupado</option>
+              </select>
+            </label>
+
+            <label>Tipo de ocupación
+              <select id="editOccupation">
+                <option value="">Seleccione</option>
+                <option>Propietario residente</option>
+                <option>Arrendatario</option>
+                <option>Familiar autorizado</option>
+                <option>Otro</option>
+                <option>Desocupado</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="edit-full-field">
+            Parqueaderos asignados <span>(opcional)</span>
+            <input id="editParkings" inputmode="numeric" placeholder="Ejemplo: 32, 47">
+            <small>
+              Si tiene más de uno, sepárelos con coma. El sistema verificará que no pertenezcan a otra casa.
+            </small>
+          </label>
+        </section>
+
+        <section class="edit-section">
+          <h3>Propietario <span>(opcional)</span></h3>
+
+          <div class="grid two">
+            <label>Nombres
+              <input id="editOwnerNames">
+            </label>
+
+            <label>Apellidos
+              <input id="editOwnerLastNames">
+            </label>
+
+            <label>Tipo de documento
+              <select id="editOwnerDocType">
+                <option value="">Seleccione</option>
+                <option>Cédula de ciudadanía</option>
+                <option>Tarjeta de identidad</option>
+                <option>Cédula de extranjería</option>
+                <option>Pasaporte</option>
+                <option>Permiso por Protección Temporal</option>
+                <option>Otro</option>
+              </select>
+            </label>
+
+            <label>Número de documento
+              <input id="editOwnerDocument">
+            </label>
+
+            <label>Fecha de nacimiento
+              <input id="editOwnerBirthDate" type="date">
+            </label>
+
+            <label>Sexo
+              <select id="editOwnerSex">
+                <option value="">Seleccione</option>
+                <option>Femenino</option>
+                <option>Masculino</option>
+                <option>Prefiere no responder</option>
+              </select>
+            </label>
+
+            <label>Teléfono
+              <input id="editOwnerPhone">
+            </label>
+
+            <label>Correo
+              <input id="editOwnerEmail" type="email">
+            </label>
+          </div>
+        </section>
+
+        <section class="edit-section" id="editResidentsSection">
+          <div class="edit-section-title">
+            <div>
+              <h3>Residentes</h3>
+              <p>Debe existir exactamente un responsable cuando la casa esté ocupada.</p>
+            </div>
+            <button type="button" class="btn add edit-add-btn" id="editAddResident">
+              + Agregar residente
+            </button>
+          </div>
+
+          <div id="editResidentsContainer"></div>
+        </section>
+
+        <section class="edit-section">
+          <div class="edit-section-title">
+            <h3>Vehículos</h3>
+            <button type="button" class="btn add edit-add-btn" id="editAddVehicle">
+              + Agregar vehículo
+            </button>
+          </div>
+
+          <div id="editVehiclesContainer"></div>
+        </section>
+
+        <section class="edit-section">
+          <div class="edit-section-title">
+            <h3>Animales de compañía</h3>
+            <button type="button" class="btn add edit-add-btn" id="editAddPet">
+              + Agregar animal
+            </button>
+          </div>
+
+          <div id="editPetsContainer"></div>
+        </section>
+
+        <div id="editRecordError" class="admin-message error hidden"></div>
+
+        <div class="edit-form-actions">
+          <button type="button" class="btn secondary" id="cancelEditRecord">
+            Cancelar
+          </button>
+
+          <button type="submit" class="btn primary" id="saveEditRecord">
+            Guardar cambios
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="exportModal" class="modal hidden">
+    <div class="modal-card export-modal-card">
+      <button class="modal-close" id="closeExportModal" type="button">×</button>
+
+      <div class="export-modal-icon">📗</div>
+      <h2>Exportar información a Excel</h2>
+      <p class="export-modal-description">
+        Seleccione la información que desea incluir en el archivo.
+      </p>
+
+      <form id="exportForm" class="export-options">
+        <label class="export-option">
+          <input type="radio" name="exportScope" value="all" checked>
+          <span>
+            <strong>Todo el conjunto</strong>
+            <small>Incluye todas las casas registradas.</small>
+          </span>
+        </label>
+
+        <label class="export-option">
+          <input type="radio" name="exportScope" value="Bloque 01">
+          <span><strong>Solo Manzana 01</strong><small>Incluye únicamente las casas de la Manzana 01.</small></span>
+        </label>
+
+        <label class="export-option">
+          <input type="radio" name="exportScope" value="Bloque 02">
+          <span><strong>Solo Manzana 02</strong><small>Incluye únicamente las casas de la Manzana 02.</small></span>
+        </label>
+
+        <label class="export-option">
+          <input type="radio" name="exportScope" value="Bloque 03">
+          <span><strong>Solo Manzana 03</strong><small>Incluye únicamente las casas de la Manzana 03.</small></span>
+        </label>
+
+        <label class="export-option">
+          <input type="radio" name="exportScope" value="Bloque 04">
+          <span><strong>Solo Manzana 04</strong><small>Incluye únicamente las casas de la Manzana 04.</small></span>
+        </label>
+
+        <label class="export-option">
+          <input type="radio" name="exportScope" value="occupied">
+          <span>
+            <strong>Solo casas ocupadas</strong>
+            <small>Incluye los registros cuyo estado es Ocupado.</small>
+          </span>
+        </label>
+
+        <label class="export-option">
+          <input type="radio" name="exportScope" value="vacant">
+          <span>
+            <strong>Solo casas desocupadas</strong>
+            <small>Incluye los registros cuyo estado es Desocupado.</small>
+          </span>
+        </label>
+
+        <div class="export-modal-actions">
+          <button type="button" class="btn secondary" id="cancelExport">
+            Cancelar
+          </button>
+          <button type="submit" class="btn primary" id="confirmExport">
+            Generar Excel
+          </button>
+        </div>
+      </form>
+
+      <p class="export-note">
+        Las casas pendientes no se incluyen porque aún no tienen un registro diligenciado.
+      </p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

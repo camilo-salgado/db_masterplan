@@ -1,0 +1,12 @@
+LA VILLA DE MARCOS - PASOS DE DESPLIEGUE
+
+1. Crear un repositorio nuevo para este proyecto (no reutilizar el de Caminos de la Pradera).
+2. Crear una base D1 nueva llamada villa-marcos-db.
+3. Ejecutar schema.sql en esa base nueva.
+4. Reemplazar en wrangler.toml el texto REEMPLAZAR_CON_ID_DE_LA_NUEVA_BASE_D1 por el ID real de la nueva D1.
+5. Crear un proyecto nuevo de Cloudflare Pages y enlazar este repositorio.
+6. Vincular la base D1 con binding DB.
+7. Crear los secretos ADMIN_PASSWORD y SESSION_SECRET.
+8. Desplegar y probar primero una casa de cada manzana, incluyendo Manzana 03 / Casa 07A.
+
+No conecte este proyecto a la base D1 de Caminos de la Pradera.
